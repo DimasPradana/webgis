@@ -1,0 +1,1533 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("MYSQL_URL")
+}
+
+model CDCCORE_BANK {
+  CDC_B_ID         String  @id @db.VarChar(10)
+  CDC_B_MERCHANT   String? @default(dbgenerated("()")) @db.VarChar(100)
+  CDC_B_NAME       String? @db.VarChar(100)
+  CDC_B_REGISTERED String? @db.VarChar(19)
+  CDC_B_CUSTOM     String? @db.VarChar(3)
+
+  @@index([CDC_B_ID], map: "IDX_CDC_B_ID")
+  @@index([CDC_B_MERCHANT], map: "IDX_CDC_B_MERCHANT")
+  @@index([CDC_B_NAME], map: "IDX_CDC_B_NAME")
+}
+
+model CDCCORE_BANK_VA {
+  CDC_VB_BANK_ID    String  @db.VarChar(10)
+  CDC_VB_CODE       String  @db.VarChar(10)
+  CDC_VB_NAME       String? @db.VarChar(40)
+  CDC_VB_REGISTERED String? @db.VarChar(20)
+  CDC_VB_USER       String? @db.VarChar(20)
+
+  @@id([CDC_VB_BANK_ID, CDC_VB_CODE])
+}
+
+model CDCCORE_GW_CUTOFF {
+  CDM_CO_ID      String  @id @db.VarChar(50)
+  CDM_CO_TITLE   String? @db.VarChar(100)
+  CDM_CO_DESC    String? @db.VarChar(255)
+  CDM_CO_START   String? @default(dbgenerated("(0000-00-00 00:00:00)")) @db.VarChar(19)
+  CDM_CO_END     String? @default(dbgenerated("(0000-00-00 00:00:00)")) @db.VarChar(19)
+  CDM_CO_CREATED String? @default(dbgenerated("(0000-00-00 00:00:00)")) @db.VarChar(19)
+  CDM_CO_PID     String? @db.VarChar(6)
+}
+
+model CDCCORE_KODE_INSTITUSI {
+  CDC_B_ID             String  @db.VarChar(10)
+  CDC_B_KODE_INSTITUSI String  @default(dbgenerated("()")) @db.VarChar(100)
+  CDC_B_NAME           String? @db.VarChar(100)
+  CDC_B_REGISTERED     String? @db.VarChar(19)
+  CDC_B_CUSTOM         String? @db.VarChar(3)
+
+  @@id([CDC_B_ID, CDC_B_KODE_INSTITUSI])
+  @@index([CDC_B_ID], map: "IDX_CDC_B_ID")
+  @@index([CDC_B_KODE_INSTITUSI], map: "IDX_CDC_B_KODE_INSTITUSI")
+}
+
+model CDCCORE_MODERN_CHANNEL {
+  CDC_MC_ID         String  @id @db.VarChar(15)
+  CDC_MC_BANK_ID    String? @db.VarChar(10)
+  CDC_MC_MERCHANT   String? @db.VarChar(5)
+  CDC_MC_NAME       String? @db.VarChar(100)
+  CDC_MC_REGISTERED String? @db.VarChar(19)
+  CDC_MC_CUSTOM     String? @db.VarChar(3)
+
+  @@index([CDC_MC_NAME], map: "IDX_MC_NAME")
+}
+
+model CDCCORE_SVC_MODULE_DB_CONFIG {
+  CDM_SMC_KEY        String  @id @db.VarChar(50)
+  CDC_SMC_CONNSTRING String? @db.MediumText
+  CDC_SMC_REGISTERED String? @db.VarChar(19)
+  CDC_SMC_MAXCONN    Int?
+  CDC_SMC_DBTYPE     Int?
+  CDC_SMC_KEY        String? @db.VarChar(50)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model CDCCORE_SWITCHER {
+  CDC_S_ID         String  @db.VarChar(7)
+  CDC_S_NAME       String? @db.VarChar(100)
+  CDC_S_ADDRESS    String? @db.VarChar(255)
+  CDC_S_PHONE      String? @db.VarChar(50)
+  CDC_S_PIC_NAME   String? @db.VarChar(100)
+  CDC_S_PIC_PHONE  String? @db.VarChar(100)
+  CDC_S_TYPE       Int?
+  CDC_S_REGISTERED String  @db.VarChar(19)
+  CDC_S_CODE       String? @db.VarChar(7)
+  CDC_S_SHORT_NAME String? @db.VarChar(3)
+
+  @@ignore
+}
+
+model CDCCORE_SWITCHER_BANK {
+  CDC_SB_ID  String @id @db.VarChar(50)
+  CDC_SB_SID String @db.VarChar(7)
+  CDC_SB_BID String @db.VarChar(7)
+  CDC_SB_PID String @db.VarChar(5)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model CDCCORE_SWITCHER_SESSION {
+  CDC_SS_SID         String  @db.VarChar(14)
+  CDC_S_ID           String? @db.VarChar(7)
+  CDC_SS_SESSION     String? @db.VarChar(50)
+  CDC_SS_LASTSESSION String? @db.VarChar(19)
+  CDC_SS_IP          String  @db.VarChar(15)
+
+  @@ignore
+}
+
+model CDCCORE_TAX_AREA_LIST {
+  CDM_AREA_CODE String @id @db.VarChar(6)
+  CDM_AREA_NAME String @db.VarChar(50)
+}
+
+model CDCMOD_GP_BILLER {
+  CDM_B_BILLER      String  @id @db.VarChar(13)
+  CDM_B_BILLER_NAME String? @default(dbgenerated("(GP)")) @db.VarChar(50)
+}
+
+model CDCMOD_GP_CUTOFF {
+  CDM_CO_ID      String  @id @db.VarChar(50)
+  CDM_CO_TITLE   String? @db.VarChar(100)
+  CDM_CO_DESC    String? @db.VarChar(255)
+  CDM_CO_START   String? @default(dbgenerated("(0000-00-00 00:00:00)")) @db.VarChar(19)
+  CDM_CO_END     String? @default(dbgenerated("(0000-00-00 00:00:00)")) @db.VarChar(19)
+  CDM_CO_CREATED String? @default(dbgenerated("(0000-00-00 00:00:00)")) @db.VarChar(19)
+}
+
+model CDCMOD_GP_LOG_TRAN_DOWN {
+  CDM_LT_ID            String  @id @default(dbgenerated("()")) @db.Char(36)
+  CDM_LT_INPUT_1       String? @db.VarChar(20)
+  CDM_LT_INPUT_2       String? @db.VarChar(20)
+  CDM_LT_INPUT_3       String? @db.VarChar(20)
+  CDM_LT_CMD           String? @db.Char(4)
+  CDM_LT_PAN           String? @db.Char(5)
+  CDM_LT_RC            String? @db.Char(4)
+  CDM_LT_SID           String? @db.Char(7)
+  CDM_LT_CA            String? @db.Char(7)
+  CDM_LT_AMOUNT        String? @db.VarChar(12)
+  CDM_LT_REFNUM        String? @db.VarChar(12)
+  CDM_LT_SWITCH_REFNUM String? @db.VarChar(32)
+  CDM_LT_GW_REFNUM     String? @db.VarChar(32)
+  CDM_LT_PPID          String? @db.VarChar(16)
+  CDM_LT_STREAM        String? @db.Text
+  CDM_LT_WID           String? @db.VarChar(10)
+  CDM_LT_LOGGED        String? @db.Char(19)
+}
+
+model CDCMOD_GP_TRAN_MAIN {
+  CDM_TM_ID                  String   @id @default(dbgenerated("()")) @db.Char(36)
+  CDM_TM_BILLER_ID           String   @db.Char(25)
+  CDM_TM_GW_REFNUM           String?  @db.VarChar(32)
+  CDM_TM_SW_REFNUM           String?  @db.VarChar(32)
+  CDM_TM_SID                 String   @db.Char(7)
+  CDM_TM_CA                  String   @db.Char(7)
+  CDM_TM_MERCHANT            String   @db.Char(4)
+  CDM_TM_PPID                String?  @db.Char(16)
+  CDM_TM_BILLER_STAN         String?  @db.VarChar(32)
+  CDM_TM_REFNUM              String   @db.Char(12)
+  CDM_TM_TRANSACT_AMOUNT     Decimal  @default(0) @db.Decimal(12, 0)
+  CDM_TM_TOTAL_BILL_AMOUNT   Decimal  @default(0) @db.Decimal(12, 0)
+  CDM_TM_TOTAL_ADMIN_CHARGES Decimal  @default(0) @db.Decimal(12, 0)
+  CDM_TM_MIN_AMOUNT          Decimal  @default(0) @db.Decimal(12, 0)
+  CDM_TM_MAX_AMOUNT          Decimal  @default(0) @db.Decimal(12, 0)
+  CDM_TM_PAYMENT_TYPE        Int?     @db.TinyInt
+  CDM_TM_TRAN_DT             String   @db.Char(14)
+  CDM_TM_ORIGINAL_DT         String   @db.Char(14)
+  CDM_TM_PAID                String?  @db.Char(19)
+  CDM_TM_REVERSED            String?  @db.Char(19)
+  CDM_TM_SETTLE_DT           String?  @db.Char(8)
+  CDM_TM_FLAG                Int      @default(0) @db.TinyInt
+  CDM_TM_SAVED               String   @db.Char(19)
+  CDM_TM_LAST_MODIFIED       String   @db.Char(19)
+  CDM_TM_TOTAL_BILL          Int      @db.TinyInt
+  CDM_TM_INPUT_1             String   @db.VarChar(20)
+  CDM_TM_INPUT_2             String?  @db.VarChar(20)
+  CDM_TM_INPUT_3             String?  @db.VarChar(20)
+  CDM_TM_FIELD_61            String?  @db.VarChar(999)
+  CDM_TM_FIELD_62            String?  @db.Text
+  CDM_TM_FIELD_63            String?  @db.VarChar(999)
+  CDM_TM_ADMIN_BILLER        Decimal? @db.Decimal(12, 0)
+  CDM_TM_ADMIN_GW            Decimal? @db.Decimal(12, 0)
+  CDM_TM_GW_BILL_ID          String?  @db.VarChar(50)
+  CDM_TM_GW_CUSTOM_DATA_1    String?  @db.VarChar(255)
+  CDM_TM_GW_CUSTOM_DATA_2    String?  @db.VarChar(255)
+  CDM_TM_GW_CUSTOM_DATA_3    String?  @db.VarChar(255)
+
+  @@index([CDM_TM_FLAG], map: "idx_FLAG")
+  @@index([CDM_TM_GW_REFNUM], map: "idx_GW_REFNUM")
+  @@index([CDM_TM_SW_REFNUM], map: "idx_SW_REFNUM")
+}
+
+model CENTRAL_APP_CONFIG {
+  CTR_AC_AID   String @db.VarChar(20)
+  CTR_AC_KEY   String @db.VarChar(45)
+  CTR_AC_VALUE String @db.VarChar(400)
+
+  @@id([CTR_AC_AID, CTR_AC_KEY])
+}
+
+model CPPMOD_CG_MEMBER {
+  CPM_CGM_ID                String  @db.VarChar(40)
+  CPM_CGM_NOP               String  @db.VarChar(20)
+  CPM_CGM_TAX_YEAR          String  @db.VarChar(4)
+  CPM_CGM_ORIGINAL_AMOUNT   Int?
+  CPM_CGM_PENALTY_FEE       Int?
+  CPM_CGM_TOTAL_AMOUNT      Int?
+  CPM_CGM_PENGURANGAN_FLAG  String? @db.Char(1)
+  CPM_CGM_PENGURANGAN_POKOK Int?
+  CPM_CGM_PENGURANGAN_DENDA Int?
+
+  @@id([CPM_CGM_ID, CPM_CGM_NOP, CPM_CGM_TAX_YEAR])
+  @@index([CPM_CGM_ID], map: "IDX_CPM_CGM_ID")
+  @@index([CPM_CGM_NOP], map: "IDX_CPM_CGM_NOP")
+  @@index([CPM_CGM_TAX_YEAR], map: "IDX_CPM_CGM_TAX_YEAR")
+}
+
+model CPPMOD_CG_TEMP_MEMBER {
+  CPM_CGTM_ID       String  @db.VarChar(40)
+  CPM_CGTM_NOP      String  @db.VarChar(20)
+  CPM_CGTM_TAX_YEAR String  @db.VarChar(4)
+  CPM_CGTM_STATUS   String? @db.VarChar(2)
+
+  @@id([CPM_CGTM_ID, CPM_CGTM_NOP, CPM_CGTM_TAX_YEAR])
+  @@index([CPM_CGTM_ID], map: "IDX_CPM_CGTM_ID")
+  @@index([CPM_CGTM_NOP], map: "IDX_CPM_CGTM_NOP")
+  @@index([CPM_CGTM_TAX_YEAR], map: "IDX_CPM_CGTM_TAX_YEAR")
+}
+
+model CPPMOD_CG_TEMP_MEMBER_FAILED {
+  CPM_CGTM_ID       String  @db.VarChar(40)
+  CPM_CGTM_NOP      String  @db.VarChar(20)
+  CPM_CGTM_TAX_YEAR String  @db.VarChar(4)
+  CPM_CGTM_STATUS   String? @db.VarChar(2)
+
+  @@id([CPM_CGTM_ID, CPM_CGTM_NOP, CPM_CGTM_TAX_YEAR])
+  @@index([CPM_CGTM_NOP], map: "IDXF_CPM_CGTM_NOP")
+  @@index([CPM_CGTM_TAX_YEAR], map: "IDXF_CPM_CGTM_YEAR")
+}
+
+model CPPMOD_COLLECTIVE_GROUP {
+  CPM_CG_ID                String  @id @db.VarChar(40)
+  CPM_CG_NAME              String? @db.VarChar(40)
+  CPM_CG_DESC              String? @db.VarChar(30)
+  CPM_CG_COLLECTOR         String? @db.VarChar(30)
+  CPM_CG_HP_COLLECTOR      String? @db.VarChar(30)
+  CPM_CG_AREA_CODE         String? @db.VarChar(10)
+  CPM_CG_CREATED_USER      String? @db.VarChar(20)
+  CPM_CG_CREATED_DATE      String? @db.VarChar(20)
+  CPM_CG_MODIFIED_USER     String? @db.VarChar(20)
+  CPM_CG_MODIFIED_DATE     String? @db.VarChar(20)
+  CPM_CG_NOP_NUMBER        Int?
+  CPM_CG_PAYMENT_CODE      String? @db.VarChar(20)
+  CPM_CG_ORIGINAL_AMOUNT   Int?
+  CPM_CG_PENALTY_FEE       Int?
+  CPM_CG_EXPIRED_DATE      String? @db.VarChar(20)
+  CPM_CG_INQ_DATE          String? @db.VarChar(20)
+  CPM_CG_INQ_ID            String? @db.VarChar(32)
+  CPM_CG_INQ_RC            String? @db.VarChar(4)
+  CPM_CG_PAY_DATE          String? @db.VarChar(20)
+  CPM_CG_PAY_ID            String? @db.VarChar(32)
+  CPM_CG_PAY_RC            String? @db.VarChar(4)
+  CPM_CG_PAY_FLAG          Int?
+  CPM_CG_PAY_NOP           Int?
+  CPM_CG_STATUS            Int?    @default(0)
+  CPM_CG_PENGURANGAN_POKOK Int?
+  CPM_CG_PENGURANGAN_DENDA Int?
+  CPM_CG_PENGURANGAN_FLAG  String? @db.Char(1)
+  CPM_REFERENCE            String? @db.VarChar(12)
+  CPM_CG_FLAG_DENDA        String? @default(dbgenerated("(0)")) @db.Char(1)
+
+  @@index([CPM_CG_AREA_CODE], map: "IDX_CPM_CG_AREA_CODE")
+  @@index([CPM_CG_COLLECTOR], map: "IDX_CPM_CG_COLLECTOR")
+  @@index([CPM_CG_CREATED_USER], map: "IDX_CPM_CG_CREATED_USER")
+  @@index([CPM_CG_EXPIRED_DATE], map: "IDX_CPM_CG_EXPIRED_DATE")
+  @@index([CPM_CG_PAY_FLAG], map: "IDX_CPM_CG_FLAG")
+  @@index([CPM_CG_ID], map: "IDX_CPM_CG_ID")
+  @@index([CPM_CG_PAYMENT_CODE], map: "IDX_CPM_CG_PAYMENT_CODE")
+  @@index([CPM_CG_PAY_ID], map: "IDX_CPM_CG_PAY_ID")
+  @@index([CPM_CG_STATUS], map: "IDX_CPM_CG_STATUS")
+}
+
+model CPPMOD_COLLECTIVE_GROUP_STATUS {
+  ID          Int     @id @default(autoincrement())
+  STATUS_NAME String? @db.VarChar(30)
+}
+
+model CPPMOD_COLLECTIVE_GROUP_STATUS_bekap {
+  ID          Int     @id @default(autoincrement())
+  STATUS_NAME String? @db.VarChar(30)
+}
+
+model CPPMOD_PBB_JNS_SEKTOR {
+  CPC_KD_SEKTOR String  @id @db.VarChar(2)
+  CPC_NM_SEKTOR String? @db.VarChar(75)
+  CPC_KD_AKUN   String? @db.VarChar(20)
+}
+
+model CPPMOD_TAX_KECAMATAN {
+  CPC_TKC_ID        String @id @db.VarChar(7)
+  CPC_TKC_KKID      String @db.VarChar(4)
+  CPC_TKC_KECAMATAN String @db.VarChar(255)
+  CPC_TKC_URUTAN    Int?
+
+  @@index([CPC_TKC_ID], map: "IDX_CPC_TKC_ID")
+}
+
+model CPPMOD_TAX_KELURAHAN {
+  CPC_TKL_ID        String  @id @db.VarChar(10)
+  CPC_TKL_KCID      String  @db.VarChar(7)
+  CPC_TKL_KELURAHAN String  @db.VarChar(255)
+  CPC_TKL_URUTAN    Int?
+  CPC_TKL_KDSEKTOR  String? @db.VarChar(2)
+  CPC_TKC_KKID      String? @db.VarChar(4)
+
+  @@index([CPC_TKL_ID], map: "IDX_CPC_TKL_ID")
+  @@index([CPC_TKL_KCID], map: "IDX_CPC_TKL_KCID")
+  @@index([CPC_TKL_KELURAHAN], map: "IDX_CPC_TKL_KELURAHAN")
+}
+
+model DAFTAR_NOP_KURANG_BAYAR {
+  NOP         String @db.VarChar(255)
+  TAHUN_PAJAK String @db.VarChar(255)
+
+  @@id([NOP, TAHUN_PAJAK])
+}
+
+model DAFTAR_NOP_UPDATE_KODE_INSTITUSI {
+  NOP            String  @db.VarChar(255)
+  TAHUN_PAJAK    String  @db.VarChar(255)
+  KODE_INSTITUSI String? @db.VarChar(255)
+
+  @@id([NOP, TAHUN_PAJAK])
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model MIGRASI_DATA_PEMBAYARAN_1 {
+  NOP         String  @db.VarChar(255)
+  TAHUN_PAJAK String  @db.VarChar(255)
+  POKOK       String? @db.VarChar(255)
+  DENDA       String? @db.VarChar(255)
+  TOTAL       String? @db.VarChar(255)
+  TANGGAL     String? @db.VarChar(255)
+  USER        String? @db.VarChar(255)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model MIGRASI_DATA_PEMBAYARAN_1_copy1 {
+  NOP         String  @db.VarChar(255)
+  TAHUN_PAJAK String  @db.VarChar(255)
+  POKOK       String? @db.VarChar(255)
+  DENDA       String? @db.VarChar(255)
+  TOTAL       String? @db.VarChar(255)
+  TANGGAL     String? @db.VarChar(255)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model MIGRASI_DATA_PEMBAYARAN_2 {
+  NOP         String  @db.VarChar(255)
+  TAHUN_PAJAK String  @db.VarChar(255)
+  POKOK       String? @db.VarChar(255)
+  DENDA       String? @db.VarChar(255)
+  TOTAL       String? @db.VarChar(255)
+  TANGGAL     String? @db.VarChar(255)
+  USER        String? @db.VarChar(255)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model MIGRASI_DATA_PEMBAYARAN_3 {
+  NOP         String  @db.VarChar(255)
+  TAHUN_PAJAK String  @db.VarChar(255)
+  POKOK       String? @db.VarChar(255)
+  DENDA       String? @db.VarChar(255)
+  TOTAL       String? @db.VarChar(255)
+  TANGGAL     String? @db.VarChar(255)
+  USER        String? @db.VarChar(255)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model MIGRASI_DATA_PEMBAYARAN_NABILA_1 {
+  NOP         String  @db.VarChar(255)
+  TAHUN_PAJAK String  @db.VarChar(255)
+  POKOK       String? @db.VarChar(255)
+  DENDA       String? @db.VarChar(255)
+  TOTAL       String? @db.VarChar(255)
+  TANGGAL     String? @db.VarChar(255)
+  USER        String? @db.VarChar(255)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model MIGRASI_DATA_PEMBAYARAN_NABILA_2 {
+  NOP         String  @db.VarChar(255)
+  TAHUN_PAJAK String  @db.VarChar(255)
+  POKOK       String? @db.VarChar(255)
+  DENDA       String? @db.VarChar(255)
+  TOTAL       String? @db.VarChar(255)
+  TANGGAL     String? @db.VarChar(255)
+  USER        String? @db.VarChar(255)
+
+  @@ignore
+}
+
+model NOP_ANGGOTA {
+  NOP String @id @db.VarChar(18)
+}
+
+model NOP_IDWP {
+  NOP   String  @id @db.VarChar(18)
+  ID_WP String? @db.VarChar(25)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model NOP_PEMBATALAN {
+  NOP String @db.VarChar(20)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model NOP_PENAGIHAN {
+  NOP String? @db.VarChar(255)
+
+  @@ignore
+}
+
+model PBB_ACCESS_LOG_WEBSERVICE {
+  id      BigInt    @id @default(autoincrement()) @db.UnsignedBigInt
+  user    String?   @db.VarChar(20)
+  date    DateTime? @db.DateTime(0)
+  request String?   @db.VarChar(200)
+  ip      String?   @db.VarChar(20)
+}
+
+model PBB_DENDA {
+  NOP                  String @db.VarChar(18)
+  SPPT_TAHUN_PAJAK     String @db.VarChar(4)
+  PBB_DENDA            Float? @default(0)
+  TANGGAL_HITUNG_DENDA String @db.VarChar(10)
+
+  @@id([NOP, SPPT_TAHUN_PAJAK])
+  @@index([NOP], map: "IDX_NOP")
+  @@index([SPPT_TAHUN_PAJAK], map: "IDX_SPPT_TAHUN_PAJAK")
+}
+
+model PBB_DENDA_copy1 {
+  NOP                  String @db.VarChar(18)
+  SPPT_TAHUN_PAJAK     String @db.VarChar(4)
+  PBB_DENDA            Float? @default(0)
+  TANGGAL_HITUNG_DENDA String @db.VarChar(10)
+
+  @@id([NOP, SPPT_TAHUN_PAJAK])
+  @@index([NOP], map: "IDX_NOP")
+  @@index([SPPT_TAHUN_PAJAK], map: "IDX_SPPT_TAHUN_PAJAK")
+}
+
+model PBB_GW_MAP_REKENING {
+  kdrek       String @id @db.VarChar(32)
+  uraian      String @db.VarChar(255)
+  kdrek_head  String @db.VarChar(32)
+  uraian_head String @db.VarChar(255)
+  parent      String @db.VarChar(32)
+}
+
+model PBB_GW_TARGET {
+  kdrek  String @db.VarChar(32)
+  tahun  String @db.VarChar(4)
+  target Float
+
+  @@id([kdrek, tahun])
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model PBB_PEMBATALAN_SPPT_LOG {
+  BTL_LOG_ID    String    @db.VarChar(36)
+  BTL_LOG_USER  String    @db.VarChar(25)
+  BTL_LOG_NOP   String    @db.VarChar(18)
+  BTL_LOG_TAHUN String    @db.VarChar(4)
+  BTL_LOG_TIME  DateTime? @db.DateTime(0)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model PBB_PENERBITAN_SPPT_LOG {
+  TBT_LOG_ID    String    @db.VarChar(36)
+  TBT_LOG_USER  String    @db.VarChar(25)
+  TBT_LOG_NOP   String    @db.VarChar(18)
+  TBT_LOG_TAHUN String    @db.VarChar(4)
+  TBT_LOG_TIME  DateTime? @db.DateTime(0)
+
+  @@ignore
+}
+
+model PBB_SPPT {
+  NOP                      String  @db.VarChar(18)
+  SPPT_TAHUN_PAJAK         String  @db.VarChar(4)
+  SPPT_TANGGAL_JATUH_TEMPO String? @db.VarChar(19)
+  SPPT_PBB_HARUS_DIBAYAR   Float?
+  WP_NAMA                  String? @default(dbgenerated("()")) @db.VarChar(50)
+  WP_TELEPON               String? @default(dbgenerated("()")) @db.VarChar(15)
+  WP_NO_HP                 String? @default(dbgenerated("()")) @db.VarChar(20)
+  WP_ALAMAT                String? @default(dbgenerated("()")) @db.VarChar(150)
+  WP_RT                    String? @default(dbgenerated("()")) @db.VarChar(4)
+  WP_RW                    String? @default(dbgenerated("()")) @db.VarChar(4)
+  WP_KELURAHAN             String? @default(dbgenerated("()")) @db.VarChar(25)
+  WP_KECAMATAN             String? @default(dbgenerated("()")) @db.VarChar(25)
+  WP_KOTAKAB               String? @default(dbgenerated("()")) @db.VarChar(25)
+  WP_KODEPOS               String? @default(dbgenerated("()")) @db.VarChar(5)
+  SPPT_TANGGAL_TERBIT      String? @db.VarChar(19)
+  SPPT_TANGGAL_CETAK       String? @db.VarChar(19)
+  OP_LUAS_BUMI             Float?
+  OP_LUAS_BANGUNAN         Float?
+  OP_KELAS_BUMI            String? @default(dbgenerated("()")) @db.VarChar(3)
+  OP_KELAS_BANGUNAN        String? @default(dbgenerated("()")) @db.VarChar(3)
+  OP_NJOP_BUMI             Float?
+  OP_NJOP_BANGUNAN         Float?
+  OP_NJOP                  Float?
+  OP_NJOPTKP               Float?
+  OP_NJKP                  Float?
+  PAYMENT_FLAG             String? @db.VarChar(1)
+  PAYMENT_PAID             String? @db.VarChar(19)
+  PAYMENT_REF_NUMBER       String? @db.VarChar(32)
+  PAYMENT_BANK_CODE        String? @db.VarChar(10)
+  PAYMENT_SW_REFNUM        String? @db.VarChar(32)
+  PAYMENT_GW_REFNUM        String? @db.VarChar(32)
+  PAYMENT_SW_ID            String? @db.VarChar(7)
+  PAYMENT_MERCHANT_CODE    String? @db.VarChar(4)
+  PAYMENT_SETTLEMENT_DATE  String? @db.VarChar(9)
+  PBB_COLLECTIBLE          Float?
+  PBB_DENDA                Float?
+  PBB_ADMIN_GW             Float?
+  PBB_MISC_FEE             Float?
+  PBB_TOTAL_BAYAR          Float?
+  OP_ALAMAT                String? @default(dbgenerated("()")) @db.VarChar(150)
+  OP_RT                    String? @default(dbgenerated("()")) @db.VarChar(4)
+  OP_RW                    String? @default(dbgenerated("()")) @db.VarChar(4)
+  OP_KELURAHAN             String? @default(dbgenerated("()")) @db.VarChar(25)
+  OP_KECAMATAN             String? @default(dbgenerated("()")) @db.VarChar(25)
+  OP_KOTAKAB               String? @default(dbgenerated("()")) @db.VarChar(25)
+  OP_KELURAHAN_KODE        String? @default(dbgenerated("()")) @db.VarChar(10)
+  OP_KECAMATAN_KODE        String? @default(dbgenerated("()")) @db.VarChar(7)
+  OP_KOTAKAB_KODE          String? @default(dbgenerated("()")) @db.VarChar(4)
+  OP_PROVINSI_KODE         String? @default(dbgenerated("()")) @db.VarChar(2)
+  TGL_STPD                 String? @db.VarChar(10)
+  TGL_SP1                  String? @db.VarChar(10)
+  TGL_SP2                  String? @db.VarChar(10)
+  TGL_SP3                  String? @db.VarChar(10)
+  STATUS_SP                String? @db.VarChar(10)
+  STATUS_CETAK             String? @db.VarChar(20)
+  WP_PEKERJAAN             String? @db.VarChar(25)
+  PAYMENT_OFFLINE_USER_ID  String? @db.VarChar(32)
+  PAYMENT_OFFLINE_FLAG     String? @db.VarChar(1)
+  PAYMENT_OFFLINE_PAID     String? @db.VarChar(19)
+  ID_WP                    String? @db.VarChar(32)
+  PAYMENT_CODE             String? @db.VarChar(20)
+  BOOKING_EXPIRED          String? @db.VarChar(20)
+  COLL_PAYMENT_CODE        String? @db.VarChar(20)
+  PENGURANGAN_POKOK        Float?
+  PENGURANGAN_DENDA        Float?
+  PENGURANGAN_FLAG         String? @db.Char(1)
+  REFERENCE                String? @db.VarChar(12)
+  CICILAN_FLAG             String? @db.Char(1)
+  KODE_INSTITUSI           String? @db.VarChar(50)
+
+  @@id([NOP, SPPT_TAHUN_PAJAK])
+  @@index([SPPT_TAHUN_PAJAK, PAYMENT_FLAG, PAYMENT_PAID, OP_KELURAHAN_KODE, OP_KECAMATAN_KODE], map: "IDX_ALL_SRCH")
+  @@index([BOOKING_EXPIRED], map: "IDX_BOOKING_EXPIRED")
+  @@index([BOOKING_EXPIRED], map: "IDX_BOOK_EXPIRED")
+  @@index([SPPT_TAHUN_PAJAK, PAYMENT_FLAG], map: "IDX_CEK_TUNGGAKAN")
+  @@index([COLL_PAYMENT_CODE], map: "IDX_COLL_PAYMENT_CODE")
+  @@index([OP_KECAMATAN_KODE], map: "IDX_CPM_OP_KECAMATAN")
+  @@index([OP_KELURAHAN_KODE], map: "IDX_CPM_OP_KELURAHAN")
+  @@index([OP_NJOP], map: "IDX_NJOP")
+  @@index([NOP], map: "IDX_NOP")
+  @@index([OP_KECAMATAN_KODE], map: "IDX_OP_KECAMATAN_KODE")
+  @@index([OP_KELURAHAN_KODE], map: "IDX_OP_KELURAHAN_KODE")
+  @@index([PAYMENT_BANK_CODE], map: "IDX_PAYMENT_BANK_CODE")
+  @@index([PAYMENT_CODE], map: "IDX_PAYMENT_CODE")
+  @@index([PAYMENT_PAID], map: "IDX_PAYMENT_PAID")
+  @@index([PAYMENT_REF_NUMBER], map: "IDX_PAYMENT_REFNUM")
+  @@index([PAYMENT_SETTLEMENT_DATE], map: "IDX_PAYMENT_SETTLEMENT_DATE")
+  @@index([PAYMENT_SW_ID], map: "IDX_PAYMENT_SW_ID")
+  @@index([REFERENCE], map: "IDX_REFERENCE")
+  @@index([SPPT_PBB_HARUS_DIBAYAR], map: "IDX_SPPT_PBB_HARUS_DIBAYAR")
+  @@index([SPPT_TAHUN_PAJAK], map: "IDX_SPPT_TAHUN_PAJAK")
+  @@index([SPPT_TANGGAL_TERBIT], map: "IDX_SPPT_TANGGAL_TERBIT")
+  @@index([SPPT_TAHUN_PAJAK], map: "IDX_THN_PAJAK")
+  @@index([PAYMENT_FLAG], map: "INDEX_PAYMENT_FLAG")
+}
+
+model PBB_SPPT_9498 {
+  NOP                      String  @db.VarChar(18)
+  SPPT_TAHUN_PAJAK         String  @db.VarChar(4)
+  SPPT_TANGGAL_JATUH_TEMPO String? @db.VarChar(19)
+  SPPT_PBB_HARUS_DIBAYAR   Float?
+  WP_NAMA                  String? @db.VarChar(50)
+  WP_TELEPON               String? @db.VarChar(15)
+  WP_NO_HP                 String? @db.VarChar(20)
+  WP_ALAMAT                String? @db.VarChar(150)
+  WP_RT                    String? @db.VarChar(4)
+  WP_RW                    String  @db.VarChar(4)
+  WP_KELURAHAN             String? @db.VarChar(25)
+  WP_KECAMATAN             String? @db.VarChar(25)
+  WP_KOTAKAB               String? @db.VarChar(25)
+  WP_KODEPOS               String? @db.VarChar(5)
+  SPPT_TANGGAL_TERBIT      String? @db.VarChar(19)
+  SPPT_TANGGAL_CETAK       String? @db.VarChar(19)
+  OP_LUAS_BUMI             Float?
+  OP_LUAS_BANGUNAN         Float?
+  OP_KELAS_BUMI            String? @db.VarChar(3)
+  OP_KELAS_BANGUNAN        String? @db.VarChar(3)
+  OP_NJOP_BUMI             Float?
+  OP_NJOP_BANGUNAN         Float?
+  OP_NJOP                  Float?
+  OP_NJOPTKP               Float?
+  OP_NJKP                  Float?
+  PAYMENT_FLAG             String? @db.VarChar(1)
+  PAYMENT_PAID             String? @db.VarChar(19)
+  PAYMENT_REF_NUMBER       String? @db.VarChar(32)
+  PAYMENT_BANK_CODE        String? @db.VarChar(7)
+  PAYMENT_SW_REFNUM        String? @db.VarChar(32)
+  PAYMENT_GW_REFNUM        String? @db.VarChar(32)
+  PAYMENT_SW_ID            String? @db.VarChar(7)
+  PAYMENT_MERCHANT_CODE    String? @db.VarChar(4)
+  PAYMENT_SETTLEMENT_DATE  String? @db.VarChar(9)
+  PBB_COLLECTIBLE          Float?
+  PBB_DENDA                Float?
+  PBB_ADMIN_GW             Float?
+  PBB_MISC_FEE             Float?
+  PBB_TOTAL_BAYAR          Float?
+  OP_ALAMAT                String? @db.VarChar(150)
+  OP_RT                    String? @db.VarChar(4)
+  OP_RW                    String? @db.VarChar(4)
+  OP_KELURAHAN             String? @db.VarChar(25)
+  OP_KECAMATAN             String? @db.VarChar(25)
+  OP_KOTAKAB               String? @db.VarChar(25)
+  OP_KELURAHAN_KODE        String? @db.VarChar(10)
+  OP_KECAMATAN_KODE        String? @db.VarChar(7)
+  OP_KOTAKAB_KODE          String? @db.VarChar(4)
+  OP_PROVINSI_KODE         String? @db.VarChar(2)
+  TGL_STPD                 String? @db.VarChar(10)
+  TGL_SP1                  String? @db.VarChar(10)
+  TGL_SP2                  String? @db.VarChar(10)
+  TGL_SP3                  String? @db.VarChar(10)
+  STATUS_SP                String? @db.VarChar(10)
+  STATUS_CETAK             String? @db.VarChar(20)
+  WP_PEKERJAAN             String? @db.VarChar(25)
+  PAYMENT_OFFLINE_USER_ID  String? @db.VarChar(32)
+  PAYMENT_OFFLINE_FLAG     String? @db.VarChar(1)
+  PAYMENT_OFFLINE_PAID     String? @db.VarChar(19)
+  ID_WP                    String? @db.VarChar(32)
+  PAYMENT_CODE             String? @db.VarChar(20)
+  BOOKING_EXPIRED          String? @db.VarChar(20)
+  COLL_PAYMENT_CODE        String? @db.VarChar(20)
+
+  @@id([NOP, SPPT_TAHUN_PAJAK])
+  @@index([SPPT_TAHUN_PAJAK, PAYMENT_FLAG, PAYMENT_PAID, OP_KELURAHAN_KODE, OP_KECAMATAN_KODE], map: "IDX_ALL_SRCH")
+  @@index([SPPT_TAHUN_PAJAK, PAYMENT_FLAG], map: "IDX_CEK_TUNGGAKAN")
+  @@index([OP_KECAMATAN_KODE], map: "IDX_CPM_OP_KECAMATAN")
+  @@index([OP_KELURAHAN_KODE], map: "IDX_CPM_OP_KELURAHAN")
+  @@index([OP_NJOP], map: "IDX_NJOP")
+  @@index([NOP], map: "IDX_NOP")
+  @@index([OP_KECAMATAN_KODE], map: "IDX_OP_KECAMATAN_KODE")
+  @@index([OP_KELURAHAN_KODE], map: "IDX_OP_KELURAHAN_KODE")
+  @@index([PAYMENT_BANK_CODE], map: "IDX_PAYMENT_BANK_CODE")
+  @@index([PAYMENT_PAID], map: "IDX_PAYMENT_PAID")
+  @@index([PAYMENT_SETTLEMENT_DATE], map: "IDX_PAYMENT_SETTLEMENT_DATE")
+  @@index([PAYMENT_SW_ID], map: "IDX_PAYMENT_SW_ID")
+  @@index([SPPT_PBB_HARUS_DIBAYAR], map: "IDX_SPPT_PBB_HARUS_DIBAYAR")
+  @@index([SPPT_TAHUN_PAJAK], map: "IDX_SPPT_TAHUN_PAJAK")
+  @@index([SPPT_TANGGAL_TERBIT], map: "IDX_SPPT_TANGGAL_TERBIT")
+  @@index([SPPT_TAHUN_PAJAK], map: "IDX_THN_PAJAK")
+  @@index([PAYMENT_FLAG], map: "INDEX_PAYMENT_FLAG")
+}
+
+model PBB_SPPT_BUANDRI_20220602_B4_UPDATE_REFNUM {
+  NOP                      String  @db.VarChar(18)
+  SPPT_TAHUN_PAJAK         String  @db.VarChar(4)
+  SPPT_TANGGAL_JATUH_TEMPO String? @db.VarChar(19)
+  SPPT_PBB_HARUS_DIBAYAR   Float?
+  WP_NAMA                  String? @default(dbgenerated("()")) @db.VarChar(50)
+  WP_TELEPON               String? @default(dbgenerated("()")) @db.VarChar(15)
+  WP_NO_HP                 String? @default(dbgenerated("()")) @db.VarChar(20)
+  WP_ALAMAT                String? @default(dbgenerated("()")) @db.VarChar(150)
+  WP_RT                    String? @default(dbgenerated("()")) @db.VarChar(4)
+  WP_RW                    String? @default(dbgenerated("()")) @db.VarChar(4)
+  WP_KELURAHAN             String? @default(dbgenerated("()")) @db.VarChar(25)
+  WP_KECAMATAN             String? @default(dbgenerated("()")) @db.VarChar(25)
+  WP_KOTAKAB               String? @default(dbgenerated("()")) @db.VarChar(25)
+  WP_KODEPOS               String? @default(dbgenerated("()")) @db.VarChar(5)
+  SPPT_TANGGAL_TERBIT      String? @db.VarChar(19)
+  SPPT_TANGGAL_CETAK       String? @db.VarChar(19)
+  OP_LUAS_BUMI             Float?
+  OP_LUAS_BANGUNAN         Float?
+  OP_KELAS_BUMI            String? @default(dbgenerated("()")) @db.VarChar(3)
+  OP_KELAS_BANGUNAN        String? @default(dbgenerated("()")) @db.VarChar(3)
+  OP_NJOP_BUMI             Float?
+  OP_NJOP_BANGUNAN         Float?
+  OP_NJOP                  Float?
+  OP_NJOPTKP               Float?
+  OP_NJKP                  Float?
+  PAYMENT_FLAG             String? @db.VarChar(1)
+  PAYMENT_PAID             String? @db.VarChar(19)
+  PAYMENT_REF_NUMBER       String? @db.VarChar(32)
+  PAYMENT_BANK_CODE        String? @db.VarChar(10)
+  PAYMENT_SW_REFNUM        String? @db.VarChar(32)
+  PAYMENT_GW_REFNUM        String? @db.VarChar(32)
+  PAYMENT_SW_ID            String? @db.VarChar(7)
+  PAYMENT_MERCHANT_CODE    String? @db.VarChar(4)
+  PAYMENT_SETTLEMENT_DATE  String? @db.VarChar(9)
+  PBB_COLLECTIBLE          Float?
+  PBB_DENDA                Float?
+  PBB_ADMIN_GW             Float?
+  PBB_MISC_FEE             Float?
+  PBB_TOTAL_BAYAR          Float?
+  OP_ALAMAT                String? @default(dbgenerated("()")) @db.VarChar(150)
+  OP_RT                    String? @default(dbgenerated("()")) @db.VarChar(4)
+  OP_RW                    String? @default(dbgenerated("()")) @db.VarChar(4)
+  OP_KELURAHAN             String? @default(dbgenerated("()")) @db.VarChar(25)
+  OP_KECAMATAN             String? @default(dbgenerated("()")) @db.VarChar(25)
+  OP_KOTAKAB               String? @default(dbgenerated("()")) @db.VarChar(25)
+  OP_KELURAHAN_KODE        String? @default(dbgenerated("()")) @db.VarChar(10)
+  OP_KECAMATAN_KODE        String? @default(dbgenerated("()")) @db.VarChar(7)
+  OP_KOTAKAB_KODE          String? @default(dbgenerated("()")) @db.VarChar(4)
+  OP_PROVINSI_KODE         String? @default(dbgenerated("()")) @db.VarChar(2)
+  TGL_STPD                 String? @db.VarChar(10)
+  TGL_SP1                  String? @db.VarChar(10)
+  TGL_SP2                  String? @db.VarChar(10)
+  TGL_SP3                  String? @db.VarChar(10)
+  STATUS_SP                String? @db.VarChar(10)
+  STATUS_CETAK             String? @db.VarChar(20)
+  WP_PEKERJAAN             String? @db.VarChar(25)
+  PAYMENT_OFFLINE_USER_ID  String? @db.VarChar(32)
+  PAYMENT_OFFLINE_FLAG     String? @db.VarChar(1)
+  PAYMENT_OFFLINE_PAID     String? @db.VarChar(19)
+  ID_WP                    String? @db.VarChar(32)
+  PAYMENT_CODE             String? @db.VarChar(20)
+  BOOKING_EXPIRED          String? @db.VarChar(20)
+  COLL_PAYMENT_CODE        String? @db.VarChar(20)
+  PENGURANGAN_POKOK        Float?
+  PENGURANGAN_DENDA        Float?
+  PENGURANGAN_FLAG         String? @db.Char(1)
+  REFERENCE                String? @db.VarChar(12)
+  CICILAN_FLAG             String? @db.Char(1)
+  KODE_INSTITUSI           String? @db.VarChar(50)
+
+  @@id([NOP, SPPT_TAHUN_PAJAK])
+  @@index([SPPT_TAHUN_PAJAK, PAYMENT_FLAG, PAYMENT_PAID, OP_KELURAHAN_KODE, OP_KECAMATAN_KODE], map: "IDX_ALL_SRCH")
+  @@index([BOOKING_EXPIRED], map: "IDX_BOOKING_EXPIRED")
+  @@index([BOOKING_EXPIRED], map: "IDX_BOOK_EXPIRED")
+  @@index([SPPT_TAHUN_PAJAK, PAYMENT_FLAG], map: "IDX_CEK_TUNGGAKAN")
+  @@index([COLL_PAYMENT_CODE], map: "IDX_COLL_PAYMENT_CODE")
+  @@index([OP_KECAMATAN_KODE], map: "IDX_CPM_OP_KECAMATAN")
+  @@index([OP_KELURAHAN_KODE], map: "IDX_CPM_OP_KELURAHAN")
+  @@index([OP_NJOP], map: "IDX_NJOP")
+  @@index([NOP], map: "IDX_NOP")
+  @@index([OP_KECAMATAN_KODE], map: "IDX_OP_KECAMATAN_KODE")
+  @@index([OP_KELURAHAN_KODE], map: "IDX_OP_KELURAHAN_KODE")
+  @@index([PAYMENT_BANK_CODE], map: "IDX_PAYMENT_BANK_CODE")
+  @@index([PAYMENT_CODE], map: "IDX_PAYMENT_CODE")
+  @@index([PAYMENT_PAID], map: "IDX_PAYMENT_PAID")
+  @@index([PAYMENT_REF_NUMBER], map: "IDX_PAYMENT_REFNUM")
+  @@index([PAYMENT_SETTLEMENT_DATE], map: "IDX_PAYMENT_SETTLEMENT_DATE")
+  @@index([PAYMENT_SW_ID], map: "IDX_PAYMENT_SW_ID")
+  @@index([REFERENCE], map: "IDX_REFERENCE")
+  @@index([SPPT_PBB_HARUS_DIBAYAR], map: "IDX_SPPT_PBB_HARUS_DIBAYAR")
+  @@index([SPPT_TAHUN_PAJAK], map: "IDX_SPPT_TAHUN_PAJAK")
+  @@index([SPPT_TANGGAL_TERBIT], map: "IDX_SPPT_TANGGAL_TERBIT")
+  @@index([SPPT_TAHUN_PAJAK], map: "IDX_THN_PAJAK")
+  @@index([PAYMENT_FLAG], map: "INDEX_PAYMENT_FLAG")
+}
+
+model PBB_SPPT_BackupNyusut {
+  NOP                      String  @db.VarChar(18)
+  SPPT_TAHUN_PAJAK         String  @db.VarChar(4)
+  SPPT_TANGGAL_JATUH_TEMPO String? @db.VarChar(19)
+  SPPT_PBB_HARUS_DIBAYAR   Float?
+  WP_NAMA                  String? @default(dbgenerated("()")) @db.VarChar(50)
+  WP_TELEPON               String? @default(dbgenerated("()")) @db.VarChar(15)
+  WP_NO_HP                 String? @default(dbgenerated("()")) @db.VarChar(20)
+  WP_ALAMAT                String? @default(dbgenerated("()")) @db.VarChar(150)
+  WP_RT                    String? @default(dbgenerated("()")) @db.VarChar(4)
+  WP_RW                    String? @default(dbgenerated("()")) @db.VarChar(4)
+  WP_KELURAHAN             String? @default(dbgenerated("()")) @db.VarChar(25)
+  WP_KECAMATAN             String? @default(dbgenerated("()")) @db.VarChar(25)
+  WP_KOTAKAB               String? @default(dbgenerated("()")) @db.VarChar(25)
+  WP_KODEPOS               String? @default(dbgenerated("()")) @db.VarChar(5)
+  SPPT_TANGGAL_TERBIT      String? @db.VarChar(19)
+  SPPT_TANGGAL_CETAK       String? @db.VarChar(19)
+  OP_LUAS_BUMI             Float?
+  OP_LUAS_BANGUNAN         Float?
+  OP_KELAS_BUMI            String? @default(dbgenerated("()")) @db.VarChar(3)
+  OP_KELAS_BANGUNAN        String? @default(dbgenerated("()")) @db.VarChar(3)
+  OP_NJOP_BUMI             Float?
+  OP_NJOP_BANGUNAN         Float?
+  OP_NJOP                  Float?
+  OP_NJOPTKP               Float?
+  OP_NJKP                  Float?
+  PAYMENT_FLAG             String? @db.VarChar(1)
+  PAYMENT_PAID             String? @db.VarChar(19)
+  PAYMENT_REF_NUMBER       String? @db.VarChar(32)
+  PAYMENT_BANK_CODE        String? @db.VarChar(7)
+  PAYMENT_SW_REFNUM        String? @db.VarChar(32)
+  PAYMENT_GW_REFNUM        String? @db.VarChar(32)
+  PAYMENT_SW_ID            String? @db.VarChar(7)
+  PAYMENT_MERCHANT_CODE    String? @db.VarChar(4)
+  PAYMENT_SETTLEMENT_DATE  String? @db.VarChar(9)
+  PBB_COLLECTIBLE          Float?
+  PBB_DENDA                Float?
+  PBB_ADMIN_GW             Float?
+  PBB_MISC_FEE             Float?
+  PBB_TOTAL_BAYAR          Float?
+  OP_ALAMAT                String? @default(dbgenerated("()")) @db.VarChar(150)
+  OP_RT                    String? @default(dbgenerated("()")) @db.VarChar(4)
+  OP_RW                    String? @default(dbgenerated("()")) @db.VarChar(4)
+  OP_KELURAHAN             String? @default(dbgenerated("()")) @db.VarChar(25)
+  OP_KECAMATAN             String? @default(dbgenerated("()")) @db.VarChar(25)
+  OP_KOTAKAB               String? @default(dbgenerated("()")) @db.VarChar(25)
+  OP_KELURAHAN_KODE        String? @default(dbgenerated("()")) @db.VarChar(10)
+  OP_KECAMATAN_KODE        String? @default(dbgenerated("()")) @db.VarChar(7)
+  OP_KOTAKAB_KODE          String? @default(dbgenerated("()")) @db.VarChar(4)
+  OP_PROVINSI_KODE         String? @default(dbgenerated("()")) @db.VarChar(2)
+  TGL_STPD                 String? @db.VarChar(10)
+  TGL_SP1                  String? @db.VarChar(10)
+  TGL_SP2                  String? @db.VarChar(10)
+  TGL_SP3                  String? @db.VarChar(10)
+  STATUS_SP                String? @db.VarChar(10)
+  STATUS_CETAK             String? @db.VarChar(20)
+  WP_PEKERJAAN             String? @db.VarChar(25)
+  PAYMENT_OFFLINE_USER_ID  String? @db.VarChar(32)
+  PAYMENT_OFFLINE_FLAG     String? @db.VarChar(1)
+  PAYMENT_OFFLINE_PAID     String? @db.VarChar(19)
+  ID_WP                    String? @db.VarChar(32)
+  PAYMENT_CODE             String? @db.VarChar(20)
+  BOOKING_EXPIRED          String? @db.VarChar(20)
+  COLL_PAYMENT_CODE        String? @db.VarChar(20)
+  PENGURANGAN_POKOK        Float?
+  PENGURANGAN_DENDA        Float?
+  PENGURANGAN_FLAG         String? @db.Char(1)
+  REFERENCE                String? @db.VarChar(12)
+  CICILAN_FLAG             String? @db.Char(1)
+
+  @@id([NOP, SPPT_TAHUN_PAJAK])
+  @@index([SPPT_TAHUN_PAJAK, PAYMENT_FLAG, PAYMENT_PAID, OP_KELURAHAN_KODE, OP_KECAMATAN_KODE], map: "IDX_ALL_SRCH")
+  @@index([BOOKING_EXPIRED], map: "IDX_BOOKING_EXPIRED")
+  @@index([BOOKING_EXPIRED], map: "IDX_BOOK_EXPIRED")
+  @@index([SPPT_TAHUN_PAJAK, PAYMENT_FLAG], map: "IDX_CEK_TUNGGAKAN")
+  @@index([COLL_PAYMENT_CODE], map: "IDX_COLL_PAYMENT_CODE")
+  @@index([OP_KECAMATAN_KODE], map: "IDX_CPM_OP_KECAMATAN")
+  @@index([OP_KELURAHAN_KODE], map: "IDX_CPM_OP_KELURAHAN")
+  @@index([OP_NJOP], map: "IDX_NJOP")
+  @@index([NOP], map: "IDX_NOP")
+  @@index([OP_KECAMATAN_KODE], map: "IDX_OP_KECAMATAN_KODE")
+  @@index([OP_KELURAHAN_KODE], map: "IDX_OP_KELURAHAN_KODE")
+  @@index([PAYMENT_BANK_CODE], map: "IDX_PAYMENT_BANK_CODE")
+  @@index([PAYMENT_CODE], map: "IDX_PAYMENT_CODE")
+  @@index([PAYMENT_PAID], map: "IDX_PAYMENT_PAID")
+  @@index([PAYMENT_REF_NUMBER], map: "IDX_PAYMENT_REFNUM")
+  @@index([PAYMENT_SETTLEMENT_DATE], map: "IDX_PAYMENT_SETTLEMENT_DATE")
+  @@index([PAYMENT_SW_ID], map: "IDX_PAYMENT_SW_ID")
+  @@index([REFERENCE], map: "IDX_REFERENCE")
+  @@index([SPPT_PBB_HARUS_DIBAYAR], map: "IDX_SPPT_PBB_HARUS_DIBAYAR")
+  @@index([SPPT_TAHUN_PAJAK], map: "IDX_SPPT_TAHUN_PAJAK")
+  @@index([SPPT_TANGGAL_TERBIT], map: "IDX_SPPT_TANGGAL_TERBIT")
+  @@index([SPPT_TAHUN_PAJAK], map: "IDX_THN_PAJAK")
+  @@index([PAYMENT_FLAG], map: "INDEX_PAYMENT_FLAG")
+}
+
+model PBB_SPPT_CETAK_ULANG {
+  NOP                      String  @db.VarChar(18)
+  SPPT_TAHUN_PAJAK         String  @db.VarChar(4)
+  SPPT_TANGGAL_JATUH_TEMPO String? @db.VarChar(19)
+  SPPT_PBB_HARUS_DIBAYAR   Float?
+  WP_NAMA                  String? @db.VarChar(50)
+  WP_TELEPON               String? @db.VarChar(15)
+  WP_NO_HP                 String? @db.VarChar(20)
+  WP_ALAMAT                String? @db.VarChar(150)
+  WP_RT                    String? @db.VarChar(4)
+  WP_RW                    String? @db.VarChar(4)
+  WP_KELURAHAN             String? @db.VarChar(25)
+  WP_KECAMATAN             String? @db.VarChar(25)
+  WP_KOTAKAB               String? @db.VarChar(25)
+  WP_KODEPOS               String? @db.VarChar(5)
+  SPPT_TANGGAL_TERBIT      String? @db.VarChar(19)
+  SPPT_TANGGAL_CETAK       String? @db.VarChar(19)
+  OP_LUAS_BUMI             Float?
+  OP_LUAS_BANGUNAN         Float?
+  OP_KELAS_BUMI            String? @db.VarChar(3)
+  OP_KELAS_BANGUNAN        String? @db.VarChar(3)
+  OP_NJOP_BUMI             Float?
+  OP_NJOP_BANGUNAN         Float?
+  OP_NJOP                  Float?
+  OP_NJOPTKP               Float?
+  OP_NJKP                  Float?
+  PAYMENT_FLAG             String? @db.VarChar(1)
+  PAYMENT_PAID             String? @db.VarChar(19)
+  PAYMENT_REF_NUMBER       String? @db.VarChar(32)
+  PAYMENT_BANK_CODE        String? @db.VarChar(7)
+  PAYMENT_SW_REFNUM        String? @db.VarChar(32)
+  PAYMENT_GW_REFNUM        String? @db.VarChar(32)
+  PAYMENT_SW_ID            String? @db.VarChar(7)
+  PAYMENT_MERCHANT_CODE    String? @db.VarChar(4)
+  PAYMENT_SETTLEMENT_DATE  String? @db.VarChar(9)
+  PBB_COLLECTIBLE          Float?
+  PBB_DENDA                Float?
+  PBB_ADMIN_GW             Float?
+  PBB_MISC_FEE             Float?
+  PBB_TOTAL_BAYAR          Float?
+  OP_ALAMAT                String? @db.VarChar(150)
+  OP_RT                    String? @db.VarChar(4)
+  OP_RW                    String? @db.VarChar(4)
+  OP_KELURAHAN             String? @db.VarChar(25)
+  OP_KECAMATAN             String? @db.VarChar(25)
+  OP_KOTAKAB               String? @db.VarChar(25)
+  OP_KELURAHAN_KODE        String? @db.VarChar(10)
+  OP_KECAMATAN_KODE        String? @db.VarChar(7)
+  OP_KOTAKAB_KODE          String? @db.VarChar(4)
+  OP_PROVINSI_KODE         String? @db.VarChar(2)
+  TGL_STPD                 String? @db.VarChar(10)
+  TGL_SP1                  String? @db.VarChar(10)
+  TGL_SP2                  String? @db.VarChar(10)
+  TGL_SP3                  String? @db.VarChar(10)
+  STATUS_SP                String? @db.VarChar(10)
+  STATUS_CETAK             String? @db.VarChar(20)
+  WP_PEKERJAAN             String? @db.VarChar(25)
+  PAYMENT_OFFLINE_USER_ID  String? @db.VarChar(32)
+  PAYMENT_OFFLINE_FLAG     String? @db.VarChar(1)
+  PAYMENT_OFFLINE_PAID     String? @db.VarChar(19)
+  ID_WP                    String? @db.VarChar(32)
+  PAYMENT_CODE             String? @db.VarChar(20)
+  BOOKING_EXPIRED          String? @db.VarChar(20)
+  COLL_PAYMENT_CODE        String? @db.VarChar(20)
+
+  @@id([NOP, SPPT_TAHUN_PAJAK])
+  @@index([SPPT_TAHUN_PAJAK, PAYMENT_FLAG, PAYMENT_PAID, OP_KELURAHAN_KODE, OP_KECAMATAN_KODE], map: "IDX_ALL_SRCH")
+  @@index([SPPT_TAHUN_PAJAK, PAYMENT_FLAG], map: "IDX_CEK_TUNGGAKAN")
+  @@index([OP_KECAMATAN_KODE], map: "IDX_CPM_OP_KECAMATAN")
+  @@index([OP_KELURAHAN_KODE], map: "IDX_CPM_OP_KELURAHAN")
+  @@index([OP_NJOP], map: "IDX_NJOP")
+  @@index([NOP], map: "IDX_NOP")
+  @@index([OP_KECAMATAN_KODE], map: "IDX_OP_KECAMATAN_KODE")
+  @@index([OP_KELURAHAN_KODE], map: "IDX_OP_KELURAHAN_KODE")
+  @@index([PAYMENT_BANK_CODE], map: "IDX_PAYMENT_BANK_CODE")
+  @@index([PAYMENT_PAID], map: "IDX_PAYMENT_PAID")
+  @@index([PAYMENT_SETTLEMENT_DATE], map: "IDX_PAYMENT_SETTLEMENT_DATE")
+  @@index([PAYMENT_SW_ID], map: "IDX_PAYMENT_SW_ID")
+  @@index([SPPT_PBB_HARUS_DIBAYAR], map: "IDX_SPPT_PBB_HARUS_DIBAYAR")
+  @@index([SPPT_TAHUN_PAJAK], map: "IDX_SPPT_TAHUN_PAJAK")
+  @@index([SPPT_TANGGAL_TERBIT], map: "IDX_SPPT_TANGGAL_TERBIT")
+  @@index([SPPT_TAHUN_PAJAK], map: "IDX_THN_PAJAK")
+  @@index([PAYMENT_FLAG], map: "INDEX_PAYMENT_FLAG")
+}
+
+model PBB_SPPT_CICILAN {
+  NOP                      String  @db.VarChar(18)
+  SPPT_TAHUN_PAJAK         String  @db.VarChar(4)
+  SPPT_TANGGAL_JATUH_TEMPO String? @db.VarChar(19)
+  SPPT_PBB_HARUS_DIBAYAR   Float?
+  WP_NAMA                  String? @default(dbgenerated("()")) @db.VarChar(50)
+  WP_TELEPON               String? @default(dbgenerated("()")) @db.VarChar(15)
+  WP_NO_HP                 String? @default(dbgenerated("()")) @db.VarChar(20)
+  WP_ALAMAT                String? @default(dbgenerated("()")) @db.VarChar(150)
+  WP_RT                    String? @default(dbgenerated("()")) @db.VarChar(4)
+  WP_RW                    String? @default(dbgenerated("()")) @db.VarChar(4)
+  WP_KELURAHAN             String? @default(dbgenerated("()")) @db.VarChar(25)
+  WP_KECAMATAN             String? @default(dbgenerated("()")) @db.VarChar(25)
+  WP_KOTAKAB               String? @default(dbgenerated("()")) @db.VarChar(25)
+  WP_KODEPOS               String? @default(dbgenerated("()")) @db.VarChar(5)
+  SPPT_TANGGAL_TERBIT      String? @db.VarChar(19)
+  SPPT_TANGGAL_CETAK       String? @db.VarChar(19)
+  OP_LUAS_BUMI             Float?
+  OP_LUAS_BANGUNAN         Float?
+  OP_KELAS_BUMI            String? @default(dbgenerated("()")) @db.VarChar(3)
+  OP_KELAS_BANGUNAN        String? @default(dbgenerated("()")) @db.VarChar(3)
+  OP_NJOP_BUMI             Float?
+  OP_NJOP_BANGUNAN         Float?
+  OP_NJOP                  Float?
+  OP_NJOPTKP               Float?
+  OP_NJKP                  Float?
+  PAYMENT_FLAG             String? @db.VarChar(1)
+  PAYMENT_PAID             String? @db.VarChar(19)
+  PAYMENT_REF_NUMBER       String? @db.VarChar(32)
+  PAYMENT_BANK_CODE        String? @db.VarChar(10)
+  PAYMENT_SW_REFNUM        String? @db.VarChar(32)
+  PAYMENT_GW_REFNUM        String? @db.VarChar(32)
+  PAYMENT_SW_ID            String? @db.VarChar(7)
+  PAYMENT_MERCHANT_CODE    String? @db.VarChar(4)
+  PAYMENT_SETTLEMENT_DATE  String? @db.VarChar(9)
+  PBB_COLLECTIBLE          Float?
+  PBB_DENDA                Float?
+  PBB_ADMIN_GW             Float?
+  PBB_MISC_FEE             Float?
+  PBB_TOTAL_BAYAR          Float?
+  OP_ALAMAT                String? @default(dbgenerated("()")) @db.VarChar(150)
+  OP_RT                    String? @default(dbgenerated("()")) @db.VarChar(4)
+  OP_RW                    String? @default(dbgenerated("()")) @db.VarChar(4)
+  OP_KELURAHAN             String? @default(dbgenerated("()")) @db.VarChar(25)
+  OP_KECAMATAN             String? @default(dbgenerated("()")) @db.VarChar(25)
+  OP_KOTAKAB               String? @default(dbgenerated("()")) @db.VarChar(25)
+  OP_KELURAHAN_KODE        String? @default(dbgenerated("()")) @db.VarChar(10)
+  OP_KECAMATAN_KODE        String? @default(dbgenerated("()")) @db.VarChar(7)
+  OP_KOTAKAB_KODE          String? @default(dbgenerated("()")) @db.VarChar(4)
+  OP_PROVINSI_KODE         String? @default(dbgenerated("()")) @db.VarChar(2)
+  TGL_STPD                 String? @db.VarChar(10)
+  TGL_SP1                  String? @db.VarChar(10)
+  TGL_SP2                  String? @db.VarChar(10)
+  TGL_SP3                  String? @db.VarChar(10)
+  STATUS_SP                String? @db.VarChar(10)
+  STATUS_CETAK             String? @db.VarChar(20)
+  WP_PEKERJAAN             String? @db.VarChar(25)
+  PAYMENT_OFFLINE_USER_ID  String? @db.VarChar(32)
+  PAYMENT_OFFLINE_FLAG     String? @db.VarChar(1)
+  PAYMENT_OFFLINE_PAID     String? @db.VarChar(19)
+  ID_WP                    String? @db.VarChar(32)
+  PAYMENT_CODE             String? @db.VarChar(20)
+  BOOKING_EXPIRED          String? @db.VarChar(20)
+  COLL_PAYMENT_CODE        String? @db.VarChar(20)
+  PENGURANGAN_POKOK        Float?
+  PENGURANGAN_DENDA        Float?
+  PENGURANGAN_FLAG         String? @db.Char(1)
+  REFERENCE                String? @db.VarChar(12)
+  CICILAN_FLAG             String? @db.Char(1)
+  KODE_INSTITUSI           String? @db.VarChar(50)
+  CICILAN                  String  @db.VarChar(2)
+
+  @@id([NOP, SPPT_TAHUN_PAJAK, CICILAN])
+  @@index([SPPT_TAHUN_PAJAK, PAYMENT_FLAG, PAYMENT_PAID, OP_KELURAHAN_KODE, OP_KECAMATAN_KODE], map: "IDX_ALL_SRCH")
+  @@index([BOOKING_EXPIRED], map: "IDX_BOOKING_EXPIRED")
+  @@index([BOOKING_EXPIRED], map: "IDX_BOOK_EXPIRED")
+  @@index([SPPT_TAHUN_PAJAK, PAYMENT_FLAG], map: "IDX_CEK_TUNGGAKAN")
+  @@index([CICILAN], map: "IDX_CICILAN")
+  @@index([COLL_PAYMENT_CODE], map: "IDX_COLL_PAYMENT_CODE")
+  @@index([OP_KECAMATAN_KODE], map: "IDX_CPM_OP_KECAMATAN")
+  @@index([OP_KELURAHAN_KODE], map: "IDX_CPM_OP_KELURAHAN")
+  @@index([OP_NJOP], map: "IDX_NJOP")
+  @@index([NOP], map: "IDX_NOP")
+  @@index([OP_KECAMATAN_KODE], map: "IDX_OP_KECAMATAN_KODE")
+  @@index([OP_KELURAHAN_KODE], map: "IDX_OP_KELURAHAN_KODE")
+  @@index([PAYMENT_BANK_CODE], map: "IDX_PAYMENT_BANK_CODE")
+  @@index([PAYMENT_CODE], map: "IDX_PAYMENT_CODE")
+  @@index([PAYMENT_PAID], map: "IDX_PAYMENT_PAID")
+  @@index([PAYMENT_REF_NUMBER], map: "IDX_PAYMENT_REFNUM")
+  @@index([PAYMENT_SETTLEMENT_DATE], map: "IDX_PAYMENT_SETTLEMENT_DATE")
+  @@index([PAYMENT_SW_ID], map: "IDX_PAYMENT_SW_ID")
+  @@index([REFERENCE], map: "IDX_REFERENCE")
+  @@index([SPPT_PBB_HARUS_DIBAYAR], map: "IDX_SPPT_PBB_HARUS_DIBAYAR")
+  @@index([SPPT_TAHUN_PAJAK], map: "IDX_SPPT_TAHUN_PAJAK")
+  @@index([SPPT_TANGGAL_TERBIT], map: "IDX_SPPT_TANGGAL_TERBIT")
+  @@index([SPPT_TAHUN_PAJAK], map: "IDX_THN_PAJAK")
+  @@index([PAYMENT_FLAG], map: "INDEX_PAYMENT_FLAG")
+}
+
+model PBB_SPPT_DATA_PIUTANG {
+  NOP            String @id @db.VarChar(36)
+  ALAMAT_OP      String @db.VarChar(225)
+  TAHUN_PAJAK    String @db.Char(4)
+  TAHUN_KEGIATAN String @db.Char(4)
+}
+
+model PBB_SPPT_DENDA {
+  ID                 String  @id @db.VarChar(50)
+  PENALTY_PERCENTAGE String? @db.VarChar(2)
+  MAX_PERIOD         String? @db.VarChar(2)
+  START_PERIOD       String? @db.VarChar(4)
+  END_PERIOD         String? @db.VarChar(4)
+  CREATED            String? @db.VarChar(19)
+}
+
+model PBB_SPPT_DENDA_B4_PEMUTIHAN_DENDA {
+  ID                 String  @id @db.VarChar(50)
+  PENALTY_PERCENTAGE String? @db.VarChar(2)
+  MAX_PERIOD         String? @db.VarChar(2)
+  START_PERIOD       String? @db.VarChar(4)
+  END_PERIOD         String? @db.VarChar(4)
+  CREATED            String? @db.VarChar(19)
+}
+
+model PBB_SPPT_DETAIL_UPLOAD {
+  KODE_UPLOAD   String  @db.VarChar(40)
+  NOP           String  @db.VarChar(20)
+  TAHUN         String  @db.VarChar(4)
+  POKOK         String? @db.VarChar(15)
+  DENDA         String? @db.VarChar(15)
+  TOTAL_BAYAR   String? @db.VarChar(15)
+  TGL_BAYAR     String? @db.VarChar(20)
+  USER          String? @db.VarChar(100)
+  STATUS_BAYAR  String? @default(dbgenerated("(0)")) @db.Char(1)
+  STATUS_PROSES String? @default(dbgenerated("(0)")) @db.Char(1)
+  TGL_PROSES    String? @db.VarChar(20)
+  KETERANGAN    String? @db.VarChar(255)
+
+  @@id([KODE_UPLOAD, NOP, TAHUN])
+  @@index([KODE_UPLOAD], map: "IDX_CPM_CGM_ID")
+  @@index([NOP], map: "IDX_CPM_CGM_NOP")
+  @@index([TAHUN], map: "IDX_CPM_CGM_TAX_YEAR")
+}
+
+model PBB_SPPT_KD_JNS {
+  NOP                      String  @db.VarChar(18)
+  SPPT_TAHUN_PAJAK         String  @db.VarChar(4)
+  SPPT_TANGGAL_JATUH_TEMPO String? @db.VarChar(19)
+  SPPT_PBB_HARUS_DIBAYAR   Float?
+  WP_NAMA                  String? @default(dbgenerated("()")) @db.VarChar(50)
+  WP_TELEPON               String? @default(dbgenerated("()")) @db.VarChar(15)
+  WP_NO_HP                 String? @default(dbgenerated("()")) @db.VarChar(20)
+  WP_ALAMAT                String? @default(dbgenerated("()")) @db.VarChar(150)
+  WP_RT                    String? @default(dbgenerated("()")) @db.VarChar(4)
+  WP_RW                    String? @default(dbgenerated("()")) @db.VarChar(4)
+  WP_KELURAHAN             String? @default(dbgenerated("()")) @db.VarChar(25)
+  WP_KECAMATAN             String? @default(dbgenerated("()")) @db.VarChar(25)
+  WP_KOTAKAB               String? @default(dbgenerated("()")) @db.VarChar(25)
+  WP_KODEPOS               String? @default(dbgenerated("()")) @db.VarChar(5)
+  SPPT_TANGGAL_TERBIT      String? @db.VarChar(19)
+  SPPT_TANGGAL_CETAK       String? @db.VarChar(19)
+  OP_LUAS_BUMI             Float?
+  OP_LUAS_BANGUNAN         Float?
+  OP_KELAS_BUMI            String? @default(dbgenerated("()")) @db.VarChar(3)
+  OP_KELAS_BANGUNAN        String? @default(dbgenerated("()")) @db.VarChar(3)
+  OP_NJOP_BUMI             Float?
+  OP_NJOP_BANGUNAN         Float?
+  OP_NJOP                  Float?
+  OP_NJOPTKP               Float?
+  OP_NJKP                  Float?
+  PAYMENT_FLAG             String? @db.VarChar(1)
+  PAYMENT_PAID             String? @db.VarChar(19)
+  PAYMENT_REF_NUMBER       String? @db.VarChar(32)
+  PAYMENT_BANK_CODE        String? @db.VarChar(7)
+  PAYMENT_SW_REFNUM        String? @db.VarChar(32)
+  PAYMENT_GW_REFNUM        String? @db.VarChar(32)
+  PAYMENT_SW_ID            String? @db.VarChar(7)
+  PAYMENT_MERCHANT_CODE    String? @db.VarChar(4)
+  PAYMENT_SETTLEMENT_DATE  String? @db.VarChar(9)
+  PBB_COLLECTIBLE          Float?
+  PBB_DENDA                Float?
+  PBB_ADMIN_GW             Float?
+  PBB_MISC_FEE             Float?
+  PBB_TOTAL_BAYAR          Float?
+  OP_ALAMAT                String? @default(dbgenerated("()")) @db.VarChar(150)
+  OP_RT                    String? @default(dbgenerated("()")) @db.VarChar(4)
+  OP_RW                    String? @default(dbgenerated("()")) @db.VarChar(4)
+  OP_KELURAHAN             String? @default(dbgenerated("()")) @db.VarChar(25)
+  OP_KECAMATAN             String? @default(dbgenerated("()")) @db.VarChar(25)
+  OP_KOTAKAB               String? @default(dbgenerated("()")) @db.VarChar(25)
+  OP_KELURAHAN_KODE        String? @default(dbgenerated("()")) @db.VarChar(10)
+  OP_KECAMATAN_KODE        String? @default(dbgenerated("()")) @db.VarChar(7)
+  OP_KOTAKAB_KODE          String? @default(dbgenerated("()")) @db.VarChar(4)
+  OP_PROVINSI_KODE         String? @default(dbgenerated("()")) @db.VarChar(2)
+  TGL_STPD                 String? @db.VarChar(10)
+  TGL_SP1                  String? @db.VarChar(10)
+  TGL_SP2                  String? @db.VarChar(10)
+  TGL_SP3                  String? @db.VarChar(10)
+  STATUS_SP                String? @db.VarChar(10)
+  STATUS_CETAK             String? @db.VarChar(20)
+  WP_PEKERJAAN             String? @db.VarChar(25)
+  PAYMENT_OFFLINE_USER_ID  String? @db.VarChar(32)
+  PAYMENT_OFFLINE_FLAG     String? @db.VarChar(1)
+  PAYMENT_OFFLINE_PAID     String? @db.VarChar(19)
+  ID_WP                    String? @db.VarChar(32)
+  PAYMENT_CODE             String? @db.VarChar(20)
+  BOOKING_EXPIRED          String? @db.VarChar(20)
+  COLL_PAYMENT_CODE        String? @db.VarChar(20)
+  PENGURANGAN_POKOK        Float?
+  PENGURANGAN_DENDA        Float?
+  PENGURANGAN_FLAG         String? @db.Char(1)
+  REFERENCE                String? @db.VarChar(12)
+  CICILAN_FLAG             String? @db.Char(1)
+
+  @@id([NOP, SPPT_TAHUN_PAJAK])
+  @@index([SPPT_TAHUN_PAJAK, PAYMENT_FLAG, PAYMENT_PAID, OP_KELURAHAN_KODE, OP_KECAMATAN_KODE], map: "IDX_ALL_SRCH")
+  @@index([BOOKING_EXPIRED], map: "IDX_BOOKING_EXPIRED")
+  @@index([BOOKING_EXPIRED], map: "IDX_BOOK_EXPIRED")
+  @@index([SPPT_TAHUN_PAJAK, PAYMENT_FLAG], map: "IDX_CEK_TUNGGAKAN")
+  @@index([COLL_PAYMENT_CODE], map: "IDX_COLL_PAYMENT_CODE")
+  @@index([OP_KECAMATAN_KODE], map: "IDX_CPM_OP_KECAMATAN")
+  @@index([OP_KELURAHAN_KODE], map: "IDX_CPM_OP_KELURAHAN")
+  @@index([OP_NJOP], map: "IDX_NJOP")
+  @@index([NOP], map: "IDX_NOP")
+  @@index([OP_KECAMATAN_KODE], map: "IDX_OP_KECAMATAN_KODE")
+  @@index([OP_KELURAHAN_KODE], map: "IDX_OP_KELURAHAN_KODE")
+  @@index([PAYMENT_BANK_CODE], map: "IDX_PAYMENT_BANK_CODE")
+  @@index([PAYMENT_CODE], map: "IDX_PAYMENT_CODE")
+  @@index([PAYMENT_PAID], map: "IDX_PAYMENT_PAID")
+  @@index([PAYMENT_REF_NUMBER], map: "IDX_PAYMENT_REFNUM")
+  @@index([PAYMENT_SETTLEMENT_DATE], map: "IDX_PAYMENT_SETTLEMENT_DATE")
+  @@index([PAYMENT_SW_ID], map: "IDX_PAYMENT_SW_ID")
+  @@index([REFERENCE], map: "IDX_REFERENCE")
+  @@index([SPPT_PBB_HARUS_DIBAYAR], map: "IDX_SPPT_PBB_HARUS_DIBAYAR")
+  @@index([SPPT_TAHUN_PAJAK], map: "IDX_SPPT_TAHUN_PAJAK")
+  @@index([SPPT_TANGGAL_TERBIT], map: "IDX_SPPT_TANGGAL_TERBIT")
+  @@index([SPPT_TAHUN_PAJAK], map: "IDX_THN_PAJAK")
+  @@index([PAYMENT_FLAG], map: "INDEX_PAYMENT_FLAG")
+}
+
+model PBB_SPPT_PEMANGGILAN {
+  SP_NOMOR   String  @id @db.VarChar(30)
+  SP_NOP     String? @db.VarChar(18)
+  SP_TAHUN   String? @db.VarChar(50)
+  SP_NAMA_WP String? @db.VarChar(50)
+  SP_HARI    String? @db.VarChar(15)
+  SP_TANGGAL String? @db.VarChar(10)
+  SP_JAM     String? @db.VarChar(5)
+  SP_ACARA   String? @db.VarChar(50)
+  SP_TEMPAT  String? @db.VarChar(30)
+  SP_TAGIHAN Float?
+}
+
+model PBB_SPPT_PEMBATALAN {
+  NOP                      String  @db.VarChar(18)
+  SPPT_TAHUN_PAJAK         String  @db.VarChar(4)
+  SPPT_TANGGAL_JATUH_TEMPO String? @db.VarChar(19)
+  SPPT_PBB_HARUS_DIBAYAR   Float?
+  WP_NAMA                  String? @default(dbgenerated("()")) @db.VarChar(50)
+  WP_TELEPON               String? @default(dbgenerated("()")) @db.VarChar(15)
+  WP_NO_HP                 String? @default(dbgenerated("()")) @db.VarChar(20)
+  WP_ALAMAT                String? @default(dbgenerated("()")) @db.VarChar(150)
+  WP_RT                    String? @default(dbgenerated("()")) @db.VarChar(4)
+  WP_RW                    String? @default(dbgenerated("()")) @db.VarChar(4)
+  WP_KELURAHAN             String? @default(dbgenerated("()")) @db.VarChar(25)
+  WP_KECAMATAN             String? @default(dbgenerated("()")) @db.VarChar(25)
+  WP_KOTAKAB               String? @default(dbgenerated("()")) @db.VarChar(25)
+  WP_KODEPOS               String? @default(dbgenerated("()")) @db.VarChar(5)
+  SPPT_TANGGAL_TERBIT      String? @db.VarChar(19)
+  SPPT_TANGGAL_CETAK       String? @db.VarChar(19)
+  OP_LUAS_BUMI             Float?
+  OP_LUAS_BANGUNAN         Float?
+  OP_KELAS_BUMI            String? @default(dbgenerated("()")) @db.VarChar(3)
+  OP_KELAS_BANGUNAN        String? @default(dbgenerated("()")) @db.VarChar(3)
+  OP_NJOP_BUMI             Float?
+  OP_NJOP_BANGUNAN         Float?
+  OP_NJOP                  Float?
+  OP_NJOPTKP               Float?
+  OP_NJKP                  Float?
+  PAYMENT_FLAG             String? @db.VarChar(1)
+  PAYMENT_PAID             String? @db.VarChar(19)
+  PAYMENT_REF_NUMBER       String? @db.VarChar(32)
+  PAYMENT_BANK_CODE        String? @db.VarChar(10)
+  PAYMENT_SW_REFNUM        String? @db.VarChar(32)
+  PAYMENT_GW_REFNUM        String? @db.VarChar(32)
+  PAYMENT_SW_ID            String? @db.VarChar(7)
+  PAYMENT_MERCHANT_CODE    String? @db.VarChar(4)
+  PAYMENT_SETTLEMENT_DATE  String? @db.VarChar(9)
+  PBB_COLLECTIBLE          Float?
+  PBB_DENDA                Float?
+  PBB_ADMIN_GW             Float?
+  PBB_MISC_FEE             Float?
+  PBB_TOTAL_BAYAR          Float?
+  OP_ALAMAT                String? @default(dbgenerated("()")) @db.VarChar(150)
+  OP_RT                    String? @default(dbgenerated("()")) @db.VarChar(4)
+  OP_RW                    String? @default(dbgenerated("()")) @db.VarChar(4)
+  OP_KELURAHAN             String? @default(dbgenerated("()")) @db.VarChar(25)
+  OP_KECAMATAN             String? @default(dbgenerated("()")) @db.VarChar(25)
+  OP_KOTAKAB               String? @default(dbgenerated("()")) @db.VarChar(25)
+  OP_KELURAHAN_KODE        String? @default(dbgenerated("()")) @db.VarChar(10)
+  OP_KECAMATAN_KODE        String? @default(dbgenerated("()")) @db.VarChar(7)
+  OP_KOTAKAB_KODE          String? @default(dbgenerated("()")) @db.VarChar(4)
+  OP_PROVINSI_KODE         String? @default(dbgenerated("()")) @db.VarChar(2)
+  TGL_STPD                 String? @db.VarChar(10)
+  TGL_SP1                  String? @db.VarChar(10)
+  TGL_SP2                  String? @db.VarChar(10)
+  TGL_SP3                  String? @db.VarChar(10)
+  STATUS_SP                String? @db.VarChar(10)
+  STATUS_CETAK             String? @db.VarChar(20)
+  WP_PEKERJAAN             String? @db.VarChar(25)
+  PAYMENT_OFFLINE_USER_ID  String? @db.VarChar(32)
+  PAYMENT_OFFLINE_FLAG     String? @db.VarChar(1)
+  PAYMENT_OFFLINE_PAID     String? @db.VarChar(19)
+  ID_WP                    String? @db.VarChar(32)
+  PAYMENT_CODE             String? @db.VarChar(20)
+  BOOKING_EXPIRED          String? @db.VarChar(20)
+  COLL_PAYMENT_CODE        String? @db.VarChar(20)
+  PENGURANGAN_POKOK        Float?
+  PENGURANGAN_DENDA        Float?
+  PENGURANGAN_FLAG         String? @db.Char(1)
+  REFERENCE                String? @db.VarChar(12)
+  CICILAN_FLAG             String? @db.Char(1)
+  KODE_INSTITUSI           String? @db.VarChar(50)
+
+  @@id([NOP, SPPT_TAHUN_PAJAK])
+  @@index([SPPT_TAHUN_PAJAK, PAYMENT_FLAG, PAYMENT_PAID, OP_KELURAHAN_KODE, OP_KECAMATAN_KODE], map: "IDX_ALL_SRCH")
+  @@index([BOOKING_EXPIRED], map: "IDX_BOOK_EXPIRED")
+  @@index([SPPT_TAHUN_PAJAK, PAYMENT_FLAG], map: "IDX_CEK_TUNGGAKAN")
+  @@index([COLL_PAYMENT_CODE], map: "IDX_COLL_PAYMENT_CODE")
+  @@index([OP_KECAMATAN_KODE], map: "IDX_CPM_OP_KECAMATAN")
+  @@index([OP_KELURAHAN_KODE], map: "IDX_CPM_OP_KELURAHAN")
+  @@index([OP_NJOP], map: "IDX_NJOP")
+  @@index([NOP], map: "IDX_NOP")
+  @@index([OP_KECAMATAN_KODE], map: "IDX_OP_KECAMATAN_KODE")
+  @@index([OP_KELURAHAN_KODE], map: "IDX_OP_KELURAHAN_KODE")
+  @@index([PAYMENT_BANK_CODE], map: "IDX_PAYMENT_BANK_CODE")
+  @@index([PAYMENT_CODE], map: "IDX_PAYMENT_CODE")
+  @@index([PAYMENT_PAID], map: "IDX_PAYMENT_PAID")
+  @@index([PAYMENT_SETTLEMENT_DATE], map: "IDX_PAYMENT_SETTLEMENT_DATE")
+  @@index([PAYMENT_SW_ID], map: "IDX_PAYMENT_SW_ID")
+  @@index([SPPT_PBB_HARUS_DIBAYAR], map: "IDX_SPPT_PBB_HARUS_DIBAYAR")
+  @@index([SPPT_TAHUN_PAJAK], map: "IDX_SPPT_TAHUN_PAJAK")
+  @@index([SPPT_TANGGAL_TERBIT], map: "IDX_SPPT_TANGGAL_TERBIT")
+  @@index([SPPT_TAHUN_PAJAK], map: "IDX_THN_PAJAK")
+  @@index([PAYMENT_FLAG], map: "INDEX_PAYMENT_FLAG")
+}
+
+model PBB_SPPT_PENAGIHAN {
+  ID                 String  @db.VarChar(32)
+  NOP                String  @db.VarChar(18)
+  TAHUN              String  @default(dbgenerated("(2014)")) @db.VarChar(4)
+  TGL_STPD           String? @db.VarChar(10)
+  TGL_SP1            String? @db.VarChar(10)
+  TGL_SP2            String? @db.VarChar(10)
+  TGL_SP3            String? @db.VarChar(10)
+  TAHUN_SP1          String? @db.VarChar(30)
+  TAHUN_SP2          String? @db.VarChar(30)
+  TAHUN_SP3          String? @db.VarChar(30)
+  STATUS_SP          String? @db.VarChar(10)
+  STATUS_PERSETUJUAN String? @db.VarChar(10)
+  WP_PEKERJAAN       String? @db.VarChar(25)
+  KETERANGAN_STPD    String? @db.VarChar(500)
+  KETERANGAN_SP      String? @db.VarChar(500)
+  KETERANGAN_SP1     String? @db.VarChar(500)
+  KETERANGAN_SP2     String? @db.VarChar(500)
+  KETERANGAN_SP3     String? @db.VarChar(500)
+  KETETAPAN_SP1      Float?
+  KETETAPAN_SP2      Float?
+  KETETAPAN_SP3      Float?
+
+  @@id([NOP, TAHUN])
+  @@index([NOP], map: "IDXNOP")
+}
+
+model PBB_SPPT_PENAGIHAN_KHUSUS {
+  ID                 String  @db.VarChar(32)
+  NOP                String  @db.VarChar(18)
+  TAHUN              String  @default(dbgenerated("(2014)")) @db.VarChar(4)
+  TGL_STPD           String? @db.VarChar(10)
+  TGL_SP1            String? @db.VarChar(10)
+  TGL_SP2            String? @db.VarChar(10)
+  TGL_SP3            String? @db.VarChar(10)
+  TAHUN_SP1          String? @db.VarChar(30)
+  TAHUN_SP2          String? @db.VarChar(30)
+  TAHUN_SP3          String? @db.VarChar(30)
+  STATUS_SP          String? @db.VarChar(10)
+  STATUS_PERSETUJUAN String? @db.VarChar(10)
+  WP_PEKERJAAN       String? @db.VarChar(25)
+  KETERANGAN_STPD    String? @db.VarChar(500)
+  KETERANGAN_SP      String? @db.VarChar(500)
+  KETERANGAN_SP1     String? @db.VarChar(500)
+  KETERANGAN_SP2     String? @db.VarChar(500)
+  KETERANGAN_SP3     String? @db.VarChar(500)
+  KETETAPAN_SP1      Float?
+  KETETAPAN_SP2      Float?
+  KETETAPAN_SP3      Float?
+
+  @@id([NOP, TAHUN])
+  @@index([NOP], map: "IDXNOP")
+}
+
+model PBB_SPPT_PENGURANGAN {
+  ID                  Int     @id @default(autoincrement())
+  TAHUN_PAJAK         String? @db.VarChar(4)
+  PERSEN_POKOK        Int?    @db.SmallInt
+  PERSEN_DENDA        Int?    @db.SmallInt
+  MASA_BERLAKU_AWAL   String? @db.VarChar(10)
+  MASA_BERLAKU_AKHIR  String? @db.VarChar(10)
+  NILAI_TAGIHAN_BAWAH Float?
+  NILAI_TAGIHAN_ATAS  Float?
+}
+
+model PBB_SPPT_TAHUN_PENAGIHAN {
+  ID               String @db.VarChar(32)
+  NOP              String @db.VarChar(18)
+  SPPT_TAHUN_PAJAK String @db.VarChar(4)
+
+  @@id([ID, SPPT_TAHUN_PAJAK, NOP])
+}
+
+model PBB_SPPT_TARGET {
+  KELURAHAN    String   @default(dbgenerated("()")) @db.VarChar(10)
+  TAHUN        String   @default(dbgenerated("()")) @db.VarChar(4)
+  TARGET_WP    Int?
+  TARGET_VALUE Decimal? @db.Decimal(15, 0)
+
+  @@id([KELURAHAN, TAHUN])
+}
+
+model PBB_SPPT_TARGET_PENGECUALIAN {
+  KELURAHAN    String   @default(dbgenerated("()")) @db.VarChar(10)
+  TAHUN        String   @default(dbgenerated("()")) @db.VarChar(4)
+  TARGET_WP    Int?
+  TARGET_VALUE Decimal? @db.Decimal(15, 0)
+
+  @@id([KELURAHAN, TAHUN])
+}
+
+model PBB_SPPT_TUNGGAKAN {
+  NOP                    String @db.VarChar(18)
+  SPPT_TAHUN_PAJAK       String @db.VarChar(4)
+  SPPT_PBB_HARUS_DIBAYAR Float?
+
+  @@id([NOP, SPPT_TAHUN_PAJAK])
+}
+
+model PBB_SPPT_UPLOAD {
+  KODE_UPLOAD String  @id @db.VarChar(40)
+  NAMA_FILE   String? @db.VarChar(255)
+  TGL_UPLOAD  String? @db.VarChar(20)
+  ID_USER     String? @db.VarChar(30)
+
+  @@index([TGL_UPLOAD], map: "IDX_CPM_CG_COLLECTOR")
+}
+
+model PBB_UPDATE_LOG {
+  UP_LOG_ID      String  @id @db.VarChar(36)
+  UP_LOG_USER    String? @db.VarChar(25)
+  UP_LOG_NOP     String? @db.VarChar(18)
+  UP_LOG_TAHUN   String? @db.VarChar(4)
+  UP_LOG_NOMINAL Float?
+  UP_LOG_TYPE    String? @db.VarChar(1)
+}
+
+model PBB_USER_WEBSERVICE {
+  uid      String  @id @db.VarChar(50)
+  password String? @db.VarChar(50)
+  ip       String? @db.VarChar(200)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model PEMBAYARAN_SUSULAN_KPP {
+  NOP                    String  @db.VarChar(18)
+  SPPT_TAHUN_PAJAK       String  @db.VarChar(4)
+  SPPT_PBB_HARUS_DIBAYAR Float?
+  PBB_DENDA              Float?
+  PBB_TOTAL_BAYAR        Float?
+  PAYMENT_PAID           String? @db.VarChar(19)
+
+  @@ignore
+}
+
+model REKAP_KPP {
+  NOP     String  @db.VarChar(20)
+  TANGGAL String? @db.VarChar(60)
+  TAHUN   String  @db.VarChar(4)
+
+  @@id([NOP, TAHUN])
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model REKAP_PEMDA {
+  NOP   String  @db.VarChar(18)
+  NAMA  String? @db.VarChar(60)
+  TAHUN String  @db.VarChar(4)
+  POKOK String? @db.VarChar(20)
+  DENDA String? @db.VarChar(20)
+  TOTAL String? @db.VarChar(20)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model R_GW_REFNUM_PBB_SPPT {
+  NOP         String? @db.VarChar(32)
+  TAHUN_PAJAK String? @db.VarChar(4)
+  GW_REFNUM   String? @db.VarChar(32)
+  SW_REFNUM   String? @db.VarChar(32)
+
+  @@ignore
+}
+
+model SPPT_FLAG {
+  NOP              String @db.VarChar(255)
+  SPPT_TAHUN_PAJAK String @db.VarChar(255)
+
+  @@id([NOP, SPPT_TAHUN_PAJAK])
+}
+
+model SPTPD_REQUEST {
+  SPTPD_ID             String   @id @db.VarChar(255)
+  SPTPD_NPWPD          String   @db.Char(14)
+  SPTPD_NM_HOTEL       String   @db.VarChar(255)
+  SPTPD_ALAMAT_HOTEL   String   @db.Text
+  SPTPD_GH             Int      @db.TinyInt
+  SPTPD_KR             String   @db.Char(1)
+  SPTPD_PBKN           String   @db.Char(1)
+  SPTPD_JPPTB_MP_AWAL  DateTime @db.Date
+  SPTPD_JPPTB_MP_AKHIR DateTime @db.Date
+  SPTPD_JPPTB_DP       Float
+  SPTPD_JPPTB_TP       Float    @db.Float
+  SPTPD_JPPTB_PT       Float
+  SPTPD_JPPTS_MP_AWAL  DateTime @db.Date
+  SPTPD_JPPTS_MP_AKHIR DateTime @db.Date
+  SPTPD_JPPTS_DP       Float
+  SPTPD_JPPTS_TP       Float    @db.Float
+  SPTPD_JPPTS_PT       Float
+  SPTPD_MP_AWAL        DateTime @db.Date
+  SPTPD_MP_AKHIR       DateTime @db.Date
+  SPTPD_DP             Float
+  SPTPD_STATUS         Int      @db.TinyInt
+  SPTPD_DATE           DateTime @db.DateTime(0)
+  SPTPD_PENOLAKAN      String?  @db.Text
+}
+
+model SP_LOGS {
+  ID        Int     @id @default(autoincrement())
+  MESSAGE   String? @db.VarChar(1024)
+  TIMESTAMP String? @db.VarChar(25)
+}
+
+model SURAT_PENGANTAR_KEJAKSAAN {
+  SPK_NOMOR   String  @id @db.VarChar(30)
+  SPK_NAMA    String? @db.VarChar(50)
+  SPK_JABATAN String? @db.VarChar(50)
+  SPK_ALAMAT  String? @db.VarChar(100)
+}
+
+model TAX_RESPONSE_CODE {
+  rc      String  @id @db.VarChar(4)
+  message String? @db.VarChar(100)
+}
+
+model UPDATE_LUNAS_SISMIOP {
+  NOP          String  @db.VarChar(255)
+  TAHUN_PAJAK  String  @db.VarChar(255)
+  PAYMENT_FLAG String? @db.VarChar(255)
+
+  @@id([NOP, TAHUN_PAJAK])
+  @@index([NOP], map: "IDX_NOP")
+  @@index([TAHUN_PAJAK], map: "IDX_TAHUN_PAJAK")
+}
